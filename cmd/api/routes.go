@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/Pantaleaogc/pantaleaocrmerp/internal/auth"
+	_"github.com/Pantaleaogc/pantaleaocrmerp/internal/auth"
 	"github.com/Pantaleaogc/pantaleaocrmerp/internal/cliente"
 	"github.com/Pantaleaogc/pantaleaocrmerp/internal/empresa"
 	"github.com/Pantaleaogc/pantaleaocrmerp/internal/usuario"
