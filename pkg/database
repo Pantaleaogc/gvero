@@ -1,5 +1,3 @@
-mkdir -p pkg/database
-cat > pkg/database/database.go << 'EOF'
 package database
 
 import (
