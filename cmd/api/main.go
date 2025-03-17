@@ -1,3 +1,5 @@
+mkdir -p cmd/api
+cat > cmd/api/main.go << 'EOF'
 package main
 
 import (
@@ -6,21 +8,28 @@ import (
     "net/http"
     "os"
     "time"
+
+    "github.com/joho/godotenv"
 )
 
 func main() {
-    // Configuração básica do servidor
+    // Carregar configurações
+    if err := godotenv.Load("configs/.env"); err != nil {
+        log.Printf("Aviso: arquivo .env não encontrado: %v", err)
+    }
+
+    // Configurações da porta
     port := os.Getenv("PORT")
     if port == "" {
         port = "8080" // Valor padrão
     }
 
-    // Handler básico para teste inicial
+    // Handler básico para teste
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, "Sistema CRM/ERP em Go - API está funcionando! Versão 0.1.0")
+        fmt.Fprintf(w, "Sistema CRM/ERP em Go - API funcionando! Versão 0.1.0")
     })
 
-    // Iniciar o servidor
+    // Iniciar servidor
     addr := fmt.Sprintf(":%s", port)
     server := &http.Server{
         Addr:         addr,
@@ -33,3 +42,4 @@ func main() {
         log.Fatalf("Erro ao iniciar servidor: %v", err)
     }
 }
+EOF
