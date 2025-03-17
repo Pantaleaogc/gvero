@@ -40,4 +40,3 @@ func main() {
         log.Fatalf("Erro ao iniciar servidor: %v", err)
     }
 }
-EOF
