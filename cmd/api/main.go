@@ -1,5 +1,3 @@
-mkdir -p cmd/api
-cat > cmd/api/main.go << 'EOF'
 package main
 
 import (
