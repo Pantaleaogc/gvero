@@ -1,5 +1,3 @@
-mkdir -p internal/usuario
-cat > internal/usuario/model.go << 'EOF'
 package usuario
 
 import (
