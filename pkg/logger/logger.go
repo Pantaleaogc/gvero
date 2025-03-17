@@ -40,8 +40,8 @@ func Init() {
 	}
 
 	// Criar loggers com output para o arquivo e para o console
-	multiWriter := log.MultiWriter(os.Stdout, logFile)
-	errorWriter := log.MultiWriter(os.Stderr, logFile)
+	multiWriter := io.MultiWriter(os.Stdout, logFile)
+	errorWriter := io.MultiWriter(os.Stderr, logFile)
 
 	InfoLogger = log.New(multiWriter, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 	ErrorLogger = log.New(errorWriter, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
