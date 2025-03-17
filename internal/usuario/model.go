@@ -1,7 +1,6 @@
 package usuario
 
 import (
-    "database/sql"
     "time"
 )
 
