@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Não aplicar regras a arquivos ou diretórios reais
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Redirecionar /api/ para o servidor Go local
+    RewriteRule ^api/(.*)$ http://localhost:8080/$1 [P,L]
+    
+    # Redirecionar a raiz para o frontend
+    RewriteRule ^$ /frontend/index.html [L]
+</IfModule>

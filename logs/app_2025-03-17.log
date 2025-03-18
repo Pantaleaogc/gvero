@@ -1,0 +1,6 @@
+INFO: 2025/03/17 01:05:05 main.go:22: Iniciando aplicação CRM/ERP...
+INFO: 2025/03/17 01:05:05 main.go:26: Aviso: arquivo .env não encontrado: open configs/.env: no such file or directory
+ERROR: 2025/03/17 01:05:05 main.go:38: Erro ao conectar ao banco de dados: dial tcp :0: connect: connection refused
+INFO: 2025/03/17 01:18:57 main.go:22: Iniciando aplicação CRM/ERP...
+INFO: 2025/03/17 01:18:57 main.go:41: Conexão com banco de dados estabelecida
+INFO: 2025/03/17 01:18:57 main.go:63: Servidor iniciado na porta 8080

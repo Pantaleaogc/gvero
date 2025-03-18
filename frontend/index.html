@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM/ERP - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+            padding: 10px;
+            background-color: #ffeeee;
+            border: 1px solid #ffcccc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema CRM/ERP</h1>
+            <p>Painel de visualização de dados</p>
+        </header>
+        
+        <div class="card">
+            <h2>Usuários</h2>
+            <button id="btnLoadUsers">Carregar Usuários</button>
+            <div id="usersData"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Clientes</h2>
+            <button id="btnLoadClients">Carregar Clientes</button>
+            <div id="clientsData"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Empresas</h2>
+            <button id="btnLoadCompanies">Carregar Empresas</button>
+            <div id="companiesData"></div>
+        </div>
+    </div>
+
+    <script>
+        // Função para carregar dados da API
+        async function fetchData(endpoint) {
+            try {
+                const response = await fetch(`/api/v1/${endpoint}`);
+                if (!response.ok) {
+                    throw new Error(`Status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro ao carregar ${endpoint}:`, error);
+                return { error: `Falha ao carregar dados: ${error.message}` };
+            }
+        }
+
+        // Função para mostrar dados em uma tabela
+        function displayData(data, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            if (data.error) {
+                container.innerHTML = `<div class="error">${data.error}</div>`;
+                return;
+            }
+
+            if (data.length === 0) {
+                container.innerHTML = '<p>Nenhum dado encontrado.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+            
+            // Cabeçalho da tabela
+            const headerRow = document.createElement('tr');
+            Object.keys(data[0]).forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            
+            // Linhas de dados
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                Object.values(item).forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value instanceof Object ? JSON.stringify(value) : value;
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            });
+            
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+
+        // Event Listeners
+        document.getElementById('btnLoadUsers').addEventListener('click', async () => {
+            const data = await fetchData('usuarios');
+            displayData(data, 'usersData');
+        });
+
+        document.getElementById('btnLoadClients').addEventListener('click', async () => {
+            const data = await fetchData('clientes');
+            displayData(data, 'clientsData');
+        });
+
+        document.getElementById('btnLoadCompanies').addEventListener('click', async () => {
+            const data = await fetchData('empresas');
+            displayData(data, 'companiesData');
+        });
+    </script>
+</body>
+</html>
