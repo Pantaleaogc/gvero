@@ -1,4 +1,4 @@
-module github.com/Pantaleaogc/pantaleaocrmerp
+module github.com/Pantaleaogc/gvero
 
 go 1.21
 

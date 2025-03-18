@@ -3,10 +3,10 @@ package main
 import (
 	"net/http"
 
-	_"github.com/Pantaleaogc/pantaleaocrmerp/internal/auth"
-	"github.com/Pantaleaogc/pantaleaocrmerp/internal/cliente"
-	"github.com/Pantaleaogc/pantaleaocrmerp/internal/empresa"
-	"github.com/Pantaleaogc/pantaleaocrmerp/internal/usuario"
+	_"github.com/Pantaleaogc/gvero/internal/auth"
+	"github.com/Pantaleaogc/gvero/internal/cliente"
+	"github.com/Pantaleaogc/gvero/internal/empresa"
+	"github.com/Pantaleaogc/gvero/internal/usuario"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )

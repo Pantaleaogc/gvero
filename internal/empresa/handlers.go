@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Pantaleaogc/pantaleaocrmerp/internal/auth"
+	"github.com/Pantaleaogc/gvero/internal/auth"
 	"github.com/go-chi/chi/v5"
 )
 

@@ -9,8 +9,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Pantaleaogc/pantaleaocrmerp/pkg/database"
-	"github.com/Pantaleaogc/pantaleaocrmerp/pkg/logger"
+	"github.com/Pantaleaogc/gvero/pkg/database"
+	"github.com/Pantaleaogc/gvero/pkg/logger"
 	"github.com/joho/godotenv"
 )
 

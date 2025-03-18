@@ -168,3 +168,7 @@ INFO: 2025/03/17 01:18:57 main.go:63: Servidor iniciado na porta 8080
 2025/03/18 19:19:30 "CONNECT http://api.ip.pn:443api.ip.pn:443 HTTP/1.1" from 185.91.127.81:47734 - 405 0B in 303.376µs
 2025/03/18 19:30:58 "CONNECT http://fingerprints.bablosoft.com:443fingerprints.bablosoft.com:443 HTTP/1.1" from 90.151.171.108:18963 - 405 0B in 315.269µs
 2025/03/18 19:31:09 "GET http://fingerprints.bablosoft.comhttp://fingerprints.bablosoft.com/ip?Z71861805620Q1 HTTP/1.1" from 90.151.171.108:3851 - 404 19B in 31.373µs
+2025/03/18 19:38:52 "GET http:///manager/html HTTP/1.1" from 156.229.233.195:38408 - 404 19B in 31.283µs
+2025/03/18 19:45:23 "CONNECT http://api.ipify.org:443api.ipify.org:443 HTTP/1.1" from 90.151.171.106:6000 - 405 0B in 25.18µs
+2025/03/18 19:45:33 "GET http://api.ipify.orghttp://api.ipify.org?Z71861805620Q1 HTTP/1.1" from 90.151.171.106:3748 - 200 54B in 211.752µs
+2025/03/18 19:50:59 "GET http://15.204.211.81:8080/ HTTP/1.1" from 179.43.175.250:36692 - 200 54B in 8.868µs

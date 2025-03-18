@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 	
-	"github.com/Pantaleaogc/pantaleaocrmerp/pkg/logger"
+	"github.com/Pantaleaogc/gvero/pkg/logger"
 )
 
 // Chave para contexto do usuário
