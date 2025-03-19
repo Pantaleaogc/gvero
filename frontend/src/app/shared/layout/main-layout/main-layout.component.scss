@@ -1,0 +1,91 @@
+.app-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+.sidenav {
+  width: 250px;
+  background-color: #f5f5f5;
+}
+
+.logo-container {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.logo {
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+.app-name {
+  margin: 0;
+  font-size: 18px;
+  color: #3f51b5;
+}
+
+.nav-expansion-panel {
+  box-shadow: none;
+  background: transparent;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.menu-item mat-icon {
+  margin-right: 8px;
+}
+
+.submenu-item {
+  margin-left: 16px;
+}
+
+.active {
+  background-color: rgba(63, 81, 181, 0.15);
+  color: #3f51b5;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+}
+
+.user-name {
+  margin-right: 8px;
+}
+
+.content-container {
+  padding: 20px;
+}
+
+.notification-item {
+  padding: 8px 16px;
+  min-width: 250px;
+}
+
+.notification-title {
+  font-weight: 500;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #666;
+}

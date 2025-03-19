@@ -1,0 +1,116 @@
+<div class="app-container">
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidebar/Menu Lateral -->
+    <mat-sidenav #sidenav mode="side" opened class="sidenav" 
+                [fixedInViewport]="true" [fixedTopGap]="0">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Logo" class="logo">
+        <h2 class="app-name">CRM/ERP</h2>
+      </div>
+      
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </a>
+        
+        <mat-expansion-panel class="nav-expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="menu-item">
+                <mat-icon>view_kanban</mat-icon>
+                <span>Kanban</span>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          
+          <mat-nav-list>
+            <a mat-list-item routerLink="/kanban/negocios" routerLinkActive="active">
+              <span class="submenu-item">Negócios</span>
+            </a>
+            <a mat-list-item routerLink="/kanban/casos" routerLinkActive="active">
+              <span class="submenu-item">Casos</span>
+            </a>
+            <a mat-list-item routerLink="/kanban/projetos" routerLinkActive="active">
+              <span class="submenu-item">Projetos</span>
+            </a>
+            <a mat-list-item routerLink="/kanban/tarefas" routerLinkActive="active">
+              <span class="submenu-item">Tarefas</span>
+            </a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+        
+        <a mat-list-item routerLink="/clientes" routerLinkActive="active">
+          <mat-icon>people</mat-icon>
+          <span>Clientes</span>
+        </a>
+        
+        <a mat-list-item routerLink="/usuarios" routerLinkActive="active">
+          <mat-icon>manage_accounts</mat-icon>
+          <span>Usuários</span>
+        </a>
+        
+        <a mat-list-item routerLink="/configuracoes" routerLinkActive="active">
+          <mat-icon>settings</mat-icon>
+          <span>Configurações</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    
+    <!-- Conteúdo Principal -->
+    <mat-sidenav-content class="sidenav-content">
+      <!-- Toolbar/Header -->
+      <mat-toolbar color="primary" class="toolbar">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        
+        <span class="toolbar-spacer"></span>
+        
+        <!-- Notificações -->
+        <button mat-icon-button [matMenuTriggerFor]="notificationsMenu">
+          <mat-icon matBadge="3" matBadgeColor="warn">notifications</mat-icon>
+        </button>
+        <mat-menu #notificationsMenu="matMenu">
+          <div class="notification-item">
+            <div class="notification-title">Novo cliente cadastrado</div>
+            <div class="notification-time">10 minutos atrás</div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="notification-item">
+            <div class="notification-title">Tarefa atribuída a você</div>
+            <div class="notification-time">1 hora atrás</div>
+          </div>
+          <mat-divider></mat-divider>
+          <a mat-menu-item routerLink="/notificacoes">Ver todas</a>
+        </mat-menu>
+        
+        <!-- Perfil do Usuário -->
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+          <span class="user-name">{{ currentUser?.nome || 'Usuário' }}</span>
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <a mat-menu-item routerLink="/perfil">
+            <mat-icon>person</mat-icon>
+            <span>Meu Perfil</span>
+          </a>
+          <a mat-menu-item routerLink="/configuracoes">
+            <mat-icon>settings</mat-icon>
+            <span>Configurações</span>
+          </a>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Sair</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar>
+      
+      <!-- Conteúdo da Página -->
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
