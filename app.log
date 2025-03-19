@@ -246,3 +246,4 @@ INFO: 2025/03/17 01:18:57 main.go:63: Servidor iniciado na porta 8080
 2025/03/19 11:22:34 "GET http:///boaform/admin/formLogin?username=user&psd=user HTTP/1.0" from 182.113.32.161:45232 - 404 19B in 36.442µs
 2025/03/19 12:50:17 "CONNECT http://api.ip.pn:443api.ip.pn:443 HTTP/1.1" from 185.91.127.81:59248 - 405 0B in 435.259µs
 2025/03/19 13:25:04 "GET http://15.204.211.81:8080/ HTTP/1.1" from 179.43.175.250:34288 - 200 54B in 12.003µs
+2025/03/19 15:07:48 "GET http://15.204.211.81/ HTTP/1.0" from 195.178.110.224:59142 - 200 54B in 467.714µs

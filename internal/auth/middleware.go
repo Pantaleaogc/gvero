@@ -1,11 +1,16 @@
+// Substitua o conteúdo do arquivo internal/auth/middleware.go
+
 package auth
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 	
 	"github.com/Pantaleaogc/gvero/pkg/logger"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // Chave para contexto do usuário
@@ -32,21 +37,70 @@ func Middleware(next http.Handler) http.Handler {
 			return
 		}
 
-		// TODO: Implementar verificação real do token JWT
-		// Por enquanto, apenas simulamos um usuário autenticado para desenvolvimento
-		user := User{
-			ID:      1,
-			Email:   "admin@example.com",
-			Role:    "admin",
-			Empresa: 1,
+		// Verificar e validar o token JWT
+		tokenStr := parts[1]
+		user, err := validateJWT(tokenStr)
+		if err != nil {
+			logger.DebugLogger.Printf("Token inválido: %v", err)
+			http.Error(w, "Token inválido ou expirado", http.StatusUnauthorized)
+			return
 		}
 
-		logger.DebugLogger.Printf("Usuário autenticado: %s (ID: %d, Empresa: %d)", user.Email, user.ID, user.Empresa)
+		logger.DebugLogger.Printf("Usuário autenticado: %s (ID: %d)", user.Email, user.ID)
 
 		// Injetar usuário no contexto
 		ctx := context.WithValue(r.Context(), UserContextKey, user)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
+}
+
+// validateJWT valida o token JWT e retorna os dados do usuário
+func validateJWT(tokenStr string) (User, error) {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		// Verificar o método de assinatura
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("método de assinatura inesperado: %v", token.Header["alg"])
+		}
+		return jwtKey, nil
+	})
+
+	if err != nil {
+		return User{}, err
+	}
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// Extrair dados do token
+		var user User
+		
+		if id, ok := claims["id"].(float64); ok {
+			user.ID = int(id)
+		} else {
+			return User{}, errors.New("ID inválido no token")
+		}
+		
+		if email, ok := claims["email"].(string); ok {
+			user.Email = email
+		} else {
+			return User{}, errors.New("email inválido no token")
+		}
+		
+		if role, ok := claims["tipo"].(string); ok {
+			user.Role = role
+		} else {
+			return User{}, errors.New("tipo inválido no token")
+		}
+		
+		// Empresa é opcional
+		if empresa, ok := claims["empresa"].(float64); ok {
+			user.Empresa = int(empresa)
+		} else {
+			user.Empresa = 1 // Valor padrão
+		}
+		
+		return user, nil
+	}
+
+	return User{}, errors.New("token inválido")
 }
 
 // FromContext extrai o usuário do contexto

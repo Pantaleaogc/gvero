@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
+
 // SetupRoutes configura todas as rotas da aplicação
 func setupRoutes() http.Handler {
 	r := chi.NewRouter()
@@ -28,16 +29,21 @@ func setupRoutes() http.Handler {
 
 	// API routes
 	r.Route("/api", func(r chi.Router) {
-		// Versão da API
-		r.Route("/v1", func(r chi.Router) {
+	    
+	        // Versão da API
+		        r.Route("/v1", func(r chi.Router) {
+		            
+		  // Rotas de autenticação
+                r.Mount("/auth", auth.Routes())
+                
 			// Rotas de usuários
-			r.Mount("/usuarios", usuario.Routes())
+			    r.Mount("/usuarios", usuario.Routes())
 			
 			// Rotas de clientes
-			r.Mount("/clientes", cliente.Routes())
+			    r.Mount("/clientes", cliente.Routes())
 			
 			// Rotas de empresas
-			r.Mount("/empresas", empresa.Routes())
+			    r.Mount("/empresas", empresa.Routes())
 		})
 	})
 

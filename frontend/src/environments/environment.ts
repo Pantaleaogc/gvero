@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiUrl: '/api/v1'  // Em produção, caminho relativo
+  production: false,
+  apiUrl: 'http://15.204.211.81:8080/api/v1'
 };

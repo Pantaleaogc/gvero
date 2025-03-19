@@ -1,1 +1,160 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p class="welcome-message">Bem-vindo, {{ userName || 'Usuário' }}!</p>
+  </div>
+
+  <div class="statistics-grid">
+    <!-- Cards de estatísticas -->
+    <mat-card class="stat-card business-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>business</mat-icon>
+        <mat-card-title>Negócios</mat-card-title>
+        <mat-card-subtitle>Pipeline Comercial</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-numbers">
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.negocios.total }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.negocios.novos }}</span>
+            <span class="stat-label">Novos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.negocios.fechados }}</span>
+            <span class="stat-label">Fechados</span>
+          </div>
+        </div>
+        <div class="stat-detail">
+          <span class="stat-label">Valor Total:</span>
+          <span class="stat-value">{{ statistics.negocios.valor }}</span>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" [routerLink]="['/kanban/negocios']">VER PIPELINE</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="stat-card project-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>assignment</mat-icon>
+        <mat-card-title>Projetos</mat-card-title>
+        <mat-card-subtitle>Gestão de Projetos</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-numbers">
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.projetos.total }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.projetos.emAndamento }}</span>
+            <span class="stat-label">Em Andamento</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.projetos.concluidos }}</span>
+            <span class="stat-label">Concluídos</span>
+          </div>
+        </div>
+        <div class="progress-section">
+          <span class="progress-label">Progresso Geral</span>
+          <mat-progress-bar mode="determinate" value="65"></mat-progress-bar>
+          <span class="progress-value">65%</span>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" [routerLink]="['/kanban/projetos']">VER PROJETOS</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="stat-card task-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>check_circle</mat-icon>
+        <mat-card-title>Tarefas</mat-card-title>
+        <mat-card-subtitle>Suas Atividades</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-numbers">
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.tarefas.total }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.tarefas.pendentes }}</span>
+            <span class="stat-label">Pendentes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.tarefas.concluidas }}</span>
+            <span class="stat-label">Concluídas</span>
+          </div>
+        </div>
+        <div class="alert-section" *ngIf="statistics.tarefas.atrasadas > 0">
+          <mat-icon class="alert-icon">warning</mat-icon>
+          <span class="alert-text">{{ statistics.tarefas.atrasadas }} tarefas atrasadas</span>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" [routerLink]="['/kanban/tarefas']">VER TAREFAS</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="stat-card client-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>people</mat-icon>
+        <mat-card-title>Clientes</mat-card-title>
+        <mat-card-subtitle>Base de Clientes</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-numbers">
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.clientes.total }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.clientes.ativos }}</span>
+            <span class="stat-label">Ativos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ statistics.clientes.novos }}</span>
+            <span class="stat-label">Novos</span>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" [routerLink]="['/clientes']">VER CLIENTES</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Atividades Recentes -->
+  <mat-card class="activities-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>history</mat-icon>
+      <mat-card-title>Atividades Recentes</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <div class="activity-icon" [ngClass]="activity.type">
+            <mat-icon *ngIf="activity.type === 'task'">check_circle</mat-icon>
+            <mat-icon *ngIf="activity.type === 'project'">assignment</mat-icon>
+            <mat-icon *ngIf="activity.type === 'business'">business</mat-icon>
+            <mat-icon *ngIf="activity.type === 'client'">person</mat-icon>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">{{ activity.title }}</div>
+            <div class="activity-meta">
+              <span class="activity-time">{{ activity.time }}</span>
+              <span class="activity-user">por {{ activity.user }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary">VER TODAS ATIVIDADES</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../../core/services/api.service';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 export interface User {
   id: number;
@@ -21,22 +22,25 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = `${environment.apiUrl}/auth`;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   
   constructor(
-    private apiService: ApiService,
+    private http: HttpClient,
     private router: Router
   ) {
     // Verificar se há um usuário no localStorage ao iniciar
+    const token = localStorage.getItem('auth_token');
     const storedUser = localStorage.getItem('current_user');
-    if (storedUser) {
+    
+    if (token && storedUser) {
       this.currentUserSubject.next(JSON.parse(storedUser));
     }
   }
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.apiService.post<LoginResponse>('auth/login', { email, password }).pipe(
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(response => {
         // Armazenar token e dados do usuário
         localStorage.setItem('auth_token', response.token);
@@ -52,18 +56,19 @@ export class AuthService {
 
   logout(): void {
     // Opcional: Chamar API para invalidar o token
-    this.apiService.post('auth/logout', {}).subscribe({
+    this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
       next: () => console.log('Logout na API realizado com sucesso'),
-      error: err => console.error('Erro ao fazer logout na API:', err)
+      error: err => console.error('Erro ao fazer logout na API:', err),
+      complete: () => {
+        // Limpar dados locais
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('current_user');
+        this.currentUserSubject.next(null);
+        
+        // Redirecionar para login
+        this.router.navigate(['/login']);
+      }
     });
-    
-    // Limpar dados locais
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('current_user');
-    this.currentUserSubject.next(null);
-    
-    // Redirecionar para login
-    this.router.navigate(['/auth/login']);
   }
 
   isAuthenticated(): boolean {
@@ -81,11 +86,10 @@ export class AuthService {
       return of(false);
     }
 
-    return this.apiService.get<User>('auth/verify').pipe(
-      map(user => {
+    return this.http.get<User>(`${this.apiUrl}/verify`).pipe(
+      tap(user => {
         localStorage.setItem('current_user', JSON.stringify(user));
         this.currentUserSubject.next(user);
-        return true;
       }),
       catchError(() => {
         this.logout();
@@ -100,12 +104,9 @@ export class AuthService {
     if (!user) return false;
     
     // Aqui você implementaria a lógica baseada no seu modelo de permissões
-    // Por exemplo, verificando o tipo de usuário ou uma lista de permissões
-    
     if (user.tipo === 'admin') return true;
     
     // Para outros tipos, verificar permissões específicas
-    // Este é apenas um exemplo - ajuste conforme seu modelo
     const permissionMap: Record<string, string[]> = {
       'gerente': ['view:all', 'edit:projects', 'view:reports'],
       'vendedor': ['view:sales', 'edit:leads'],
